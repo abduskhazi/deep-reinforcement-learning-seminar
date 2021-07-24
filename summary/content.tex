@@ -1,8 +1,138 @@
-\section{My First Section}
+\section{Introduction - The essence of learning}
 
-The first section starts here.
+Learning or development of any intelligent agent can be divided into 2 successive phases -
+\begin{enumerate}
+  \item Understanding or finding the target task. (Goal Discovery)
+  \item Learning the task itself.
+\end{enumerate}
+These phases,  as shown in Figure~\ref{fig:LearningPhases}.,  need to be accomplished in a sequential manner.
+Most of the work in contemporary machine learning has assumed that the task to accomplish is already given and understood.
+All that remains is to program the computing agent to learn the task.
+For example,  to find fraud in bank transactions,  it is clear that the main objective is the classification of transactions as good and bad.
+The main question that remains is - How do we learn the best classifier?
+Interestingly,  the learning processes of the classifier is also determined by the choice of the machine learning model e.g.  ANN,  
+Random Forest Classifier etc.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet as can be seen in Figure~\ref{fig:octomap}.
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=1.0\textwidth]{img/LearningPhases}
+    \caption{Learning Stages.}
+    \label{fig:LearningPhases}
+\end{figure}
+
+Even though the selection of the ML models is automated to some extent using AutoML,
+this methodology fails for the sequential decision making tasks. 
+For solving this issue, Reinforcement Learning was developed as a general learning paradigm.
+Notice, however, that RL still only  deals with the second phase of learning.
+This is because the task to learn is intrinsically provided to the agent in the form of a reward function.
+
+The authors of this paper,  in contrast, focus mainly on the first phase of learning.
+They propose an agent architecture that not only learns multiple skills but also generalizes learning to new skills.
+Thus their agent is an open-ended multi-skill learning agent.
+They use (Deep) RL to their advantage for the second phase of learning as it is a general learning paradigm.
+Hence the agent has to learn to formulate the goal as a reward function.
+Subsequently it has to use the reward function to learn the task.
+
+\section{Motivation}
+
+The inspirations of this paper come from 2 sources, namely,  \textit{Developmental Machine Learning} and \textit{Theory of Zone of proximal development}.
+% The principles taken from these 2 sources act as pillars upon which the agent's learning mechanism is built.
+
+\subsection{Developmental Machine Learning}
+This is a part of machine learning that tries to mimic the ways infants try to learn new skills.
+According to psychologists,  the way infants get their internal satisfaction or reward is by accomplishing novel goals.
+For example in Figure~\ref{fig:kindPlayingBlock}, after learning how to build a block-tower the child is no longer interested in repeating this task.
+Even accomplishing a similar task like building a tower of books is also not very interesting or satisfying.
+Novelty of the task is essential !
+
+
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.3\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/kindPlayingBlock}
+    \caption{A kid playing with blocks~\cite[p.~3]{kindPlayingBlock}.}
+    \label{fig:kindPlayingBlock}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/ZPD}
+    \caption{ZDP~\cite[p.~3]{ZPD}.}
+    \label{fig:ZPD}
+  \end{minipage}
+\end{figure}
+
+Hence psychologists say that children are intrinsically motivated or curious.
+The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.
+
+\subsection{Theory of Zone of Proximal Development}
+This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner at any stage of development.
+Figure~\ref{fig:ZPD} shows an illustration of these zones.
+The internal zone consists of skills that the learner can learn on his own.
+E.g. The child will be able to generalize building a stack of books after he learns how to build a stack of blocks.
+The middle zone,  aka \textit{Zone of Proximal Development},  consists of skills that the learner can accomplish only with the help of some guidance.
+E.g.  The child can learn how to build a pyramid, but he would require some guidance for this.
+The outermost zone consists of skills that cannot be accomplished even with the help of guidance.
+E.g.  Building a ship structure using lego blocks is beyond the child's capability regardless of the guidance given.
+
+The key idea is this - there has to be someone to guide the child.
+This is identical to the parent-child learning dynamics.
+Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
+
+\section{Language - A medium for Curiosity and Guidance}
+The authors use Language for both goal discovery (curiosity) as well as for guidance of the agent because
+\begin{itemize}
+\item In the parent-child dynamics, the parent being the social partner gives guidance to the child using language.
+The authors try to mimic this.
+\item Languages embody collective knowledge that has developed over 1000s of years .
+They contain words that explain complex concepts using sufficiently high levels of abstractions.
+\item Combinatorial composition of language makes it good for formulating and imagining new goals.
+This combinatorial composition aids in the development of novel goals.
+\end{itemize}
+
+\section{Goal Generation and Generalization}
+In the previous works and in this work,  each goal is given by $g \in \mathbf{R}^m$.
+Using a set of known Goals $G$,  previous papers trained models such as \textit{Adversarial Neural Networks} and \textit{Variational Auto-Encoders}.
+Using these models,  new goals within the known/seen distribution were created.
+This is a limitation because it is not a novel goal for the agent.
+E.g. The tasks - Building a stack of blocks and a stack of books are within the same goal distribution.
+But they are not novel for the child.
+What is novel is to jump to building a pyramid which is an out of distribution Goal.
+The authors try to overcome this limitation by using language for generating new goals instead of the above generative models.
+
+As there are 2 distinct phases of learning, as seen above,  so do we have 2 distinct generalizations
+\begin{itemize}
+\item Goal Generalization - Corresponding to the Goal Discovery Phase.
+\item State Space Generalization - Corresponding to the Task Learning Phase.
+\end{itemize}
+
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/GoalGeneralization}
+    \caption{Goal Generalization}
+    \label{fig:GoalGeneralization}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/StateSpaceGeneralization}
+    \caption{State Space Generalization}
+    \label{fig:StateSpaceGeneralization}
+  \end{minipage}
+\end{figure}
+
+Consider a space of "Moving objects on an $x y$ plane".
+Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learnt to move 1 type of object (here a chair),  then a good State space generalization would 
+be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.
+However only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can 
+generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
+
+The study of Artificial intelligence,  traditionally, has assumed that in the development of artificial agents ha
+Traditional Machine learning is done by specifying both the goal and the learning algorithms.  Eg: We may use deep learning to learn a classifier (Goal) and use stochastic gradient descent (learning algorithm) to learning it.  In vanilla RL we only define the goal, albeit indirectly, by engineering the reward function.
+As the second component of learning, in principle, can be tackled by the RL algorithms,
+the authors of this paper propose an Deep RL agent that requires only guidance for the Goal discovery part i.e the first part.
+
+
+Figure~\ref{fig:octomap}.
 
 \begin{figure}[htb]
   \centering
