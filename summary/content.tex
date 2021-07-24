@@ -5,7 +5,7 @@ Learning or development of any intelligent agent can be divided into 2 successiv
   \item Understanding or finding the target task. (Goal Discovery)
   \item Learning the task itself.
 \end{enumerate}
-These phases,  as shown in Figure~\ref{fig:LearningPhases}.,  need to be accomplished in a sequential manner.
+These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accomplished in a sequential manner.
 Most of the work in contemporary machine learning has assumed that the task to accomplish is already given and understood.
 All that remains is to program the computing agent to learn the task.
 For example,  to find fraud in bank transactions,  it is clear that the main objective is the classification of transactions as good and bad.
@@ -63,6 +63,7 @@ Novelty of the task is essential !
 
 Hence psychologists say that children are intrinsically motivated or curious.
 The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.
+They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
 
 \subsection{Theory of Zone of Proximal Development}
 This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner at any stage of development.
@@ -78,18 +79,8 @@ The key idea is this - there has to be someone to guide the child.
 This is identical to the parent-child learning dynamics.
 Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
 
-\section{Language - A medium for Curiosity and Guidance}
-The authors use Language for both goal discovery (curiosity) as well as for guidance of the agent because
-\begin{itemize}
-\item In the parent-child dynamics, the parent being the social partner gives guidance to the child using language.
-The authors try to mimic this.
-\item Languages embody collective knowledge that has developed over 1000s of years .
-They contain words that explain complex concepts using sufficiently high levels of abstractions.
-\item Combinatorial composition of language makes it good for formulating and imagining new goals.
-This combinatorial composition aids in the development of novel goals.
-\end{itemize}
-
 \section{Goal Generation and Generalization}
+\subsection{Previous works and their limitations}
 In the previous works and in this work,  each goal is given by $g \in \mathbf{R}^m$.
 Using a set of known Goals $G$,  previous papers trained models such as \textit{Adversarial Neural Networks} and \textit{Variational Auto-Encoders}.
 Using these models,  new goals within the known/seen distribution were created.
@@ -99,7 +90,54 @@ But they are not novel for the child.
 What is novel is to jump to building a pyramid which is an out of distribution Goal.
 The authors try to overcome this limitation by using language for generating new goals instead of the above generative models.
 
-As there are 2 distinct phases of learning, as seen above,  so do we have 2 distinct generalizations
+\subsection{Goal Generation Mechanism - Construction Grammar}
+\label{ConstructionGrammarSection}
+
+The authors make use of a concept called Construction Grammar to generate new goals.
+Using Construction Grammar it is able to generate out of known distribution goals.
+Each word, being \textbf{semantically undividable}, is called an atom.
+Atoms combine to form compounds which are ultimately sentences describing goals.
+Figure~\ref{fig:CGFundamentals} provides an example.
+
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/CGFundamentals}
+    \caption{Fundamental Components of Construction Grammar.}
+    \label{fig:CGFundamentals}
+\end{figure}
+
+To study the effects of Goal generalization in isolation, the authors do not use a  full blow NLP agent.
+They use a simple and controlled Grammar as shown in Figure~\ref{fig:ConstructionGrammarImage} .
+It has 3 main actions/verbs \textbf{Go} (to a zone) \textbf{Grasp} (an object) and \textbf{Grow} (an object).
+The number of objects depend on the environment complexity. [See \ref{EnvironmentSection} ]
+
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/ConstructionGrammarImage}
+    \caption{Construction Grammar used in the Paper.}
+    \label{fig:ConstructionGrammarImage}
+\end{figure}
+
+\subsection{Goal Generation "Curiosity" algorithm}
+The essence of this algorithm is that the authors try to compute equivalent atoms.
+Given 2 known goals like "Move Red Table" and "Move Red Chair", the edit distance between the goals is 1.
+This is because by replacing 1 word "Table" with "Chair" we can move from the first to the second goal (and vice-versa).
+Now the atoms "Table" and "Chair" are considered equivalent.
+One can be replaced for another in a goal to obtain a different goal.
+For example "Break Red Chair" can be converted to "Break Read Table".
+The new compounds/goals formed by replacing equivalent atoms are called imagined goals.
+Figure~\ref{fig:CuriosityAlgorithm} shows the complete algorithm with its essence.
+Using these imagined goals, the agent explores the goal space to get better goal generalization.
+
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=1.0\textwidth]{img/CuriosityAlgorithm}
+    \caption{Curiosity Algorithm.}
+    \label{fig:CuriosityAlgorithm}
+\end{figure}
+
+\subsection{Goal Generalization vs State Space Generalization}
+As there are 2 distinct phases of learning, as seen above,  so are there 2 distinct generalizations
 \begin{itemize}
 \item Goal Generalization - Corresponding to the Goal Discovery Phase.
 \item State Space Generalization - Corresponding to the Task Learning Phase.
@@ -125,6 +163,25 @@ Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learnt to m
 be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.
 However only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can 
 generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
+The authors are primarily concerned with Goal Generalization in the paper.
+
+
+\section{Synthetic Environment}
+\label{EnvironmentSection}
+
+\section{Garbage}
+
+
+\section{Language - A medium for Curiosity and Guidance}
+The authors use Language for both goal discovery (curiosity) as well as for guidance of the agent because
+\begin{itemize}
+\item In the parent-child dynamics, the parent being the social partner gives guidance to the child using language.
+The authors try to mimic this.
+\item Languages embody collective knowledge that has developed over 1000s of years .
+They contain words that explain complex concepts using sufficiently high levels of abstractions.
+\item Combinatorial composition of language makes it good for formulating and imagining new goals.
+This combinatorial composition aids in the development of novel goals.
+\end{itemize}
 
 The study of Artificial intelligence,  traditionally, has assumed that in the development of artificial agents ha
 Traditional Machine learning is done by specifying both the goal and the learning algorithms.  Eg: We may use deep learning to learn a classifier (Goal) and use stochastic gradient descent (learning algorithm) to learning it.  In vanilla RL we only define the goal, albeit indirectly, by engineering the reward function.
