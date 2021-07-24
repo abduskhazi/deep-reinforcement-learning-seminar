@@ -1,0 +1,134 @@
+\documentclass[10pt]{article}
+\usepackage{amssymb}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{setspace}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\title{IMAGINE - Curiosity-Driven Exploration using Language as a tool\\
+        \href{https://arxiv.org/pdf/2002.09253.pdf}
+                        {Research Paper}}
+        
+\author{
+                \\
+                \\
+                \\
+                \textbf{Abstract by}\\
+                Abdus Salam Khazi\\
+                Albert-Ludwigs-Universität Freiburg\\
+                \href{mailto:abdus.khazi@students.uni-freiburg.de}
+                       {abdus.khazi@students.uni-freiburg.de}
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{My First Section}
+
+Learning or development of any intelligent agent has 2 principle components
+\begin{itemize}
+  \item What to learn (or) Goal discovery
+  \item How to learn it (or) Learning algorithms
+\end{itemize}
+Traditional Machine learning is done by specifying both the goal and the learning algorithms.  Eg: We may use deep learning to learn a classifier (Goal) and use stochastic gradient descent (learning algorithm) to learning it.  In vanilla RL we only define the goal, albeit indirectly, by engineering the reward function.
+As the second component of learning, in principle, can be tackled by the RL algorithms,
+the authors of this paper propose an Deep RL agent that requires only guidance for the Goal discovery part i.e the first part.
+
+The inspiration for this paper comes from developmental machine learning which tries to mimic the skill learning process of infants.
+Infants learn skills from simple to complex in a sequential manner owing to the fact that mastery in simple skills is a prerequisite for learning the complex skills. Eg:- Only when a baby masters crawling will he start to walk.
+Moreover, according to the theory of zone of proximal development, by psychologist Vygotsky, there exists a limit to automated learning by any agent which can only expanded by guidance (or supervision) to the agent.
+This is similar to how a building is built from the base to the top sequentially and we require scaffolding (or guidance) to build it.
+Interestingly according to psychologists, infants are intrinsically motivated to learn new skills. This means the reward (dopamine) that the children obtain is by discovering and accomplishing new goals not just accomplishing the same goal again and again.
+
+Taking the above research into consideration,  the authors propose a language based guidance (or supervision) of the agent. 
+The supervision is to be given by an explicit social partner who is assumed to have perfect presence and is assumed to be a perfect guide.
+The decision to use language as a medium of guidance is firstly endorsed by research in Cognitive science, which states that language skills cannot be secluded from the motor and perceptual understanding of an agent.
+In addition to this, a language guided agent can be trained trivially by non experts which increases its scope of applicability.
+
+The authors propose a DeepRL agent named IMAGINE which is an acronym for Intrinsic Motivations And Goal Invention for Exploration.
+The main aim of the paper is to demonstrate the concept of goal discovery.
+To study this in isolation, the authors do not train or learn a full blown language skill or a full blown perceptual skill.
+They propose the use of a custom environment, named playground, tailored to this study.
+
+In the playground environment a toy language is constructed in which a word is called an atom and a sentence is called a compound. 
+3 types of sentences are created using a simple grammar -
+\begin{itemize}
+  \item Go ZONE (e.g. go bottom left)
+  \item Grasp OBJECT (e.g. Grasp any blue thing,  Grasp red cat)
+  \item Grow OBJECT (e.g. grow any red thing,  grow green animal)
+\end{itemize}
+Firstly,  the number of objects and their categories in the playground environment are kept low.
+This controls the combinatorial complexity of the language grammar.
+The objects in the playground environment can be referred directly with their name or with a category eg: Living thing, animal, plant etc.. These objects and their categories are hard-coded in the playground environment in a hierarchy just like a class hierarchy in the OOP languages.
+The objects can also be qualified with a color (red, green, blue etc).
+Each compound or a sentence constructed in the above playground environment is a goal.
+A goal is encoded using a language encoder (built using an LSTM) to a real valued vector.
+
+The playground is a 2D simulated environment with agents and objects represented by circles with different radii.
+The playground also contains Water and Food as an object to accomplish the grow task.
+It can be understood as a farm in which animals, plants and objects can be grasped but only living things can be grown.
+The state of the agent is a real valued vector which embodies its location in 2D space, whether any object is grasped, the object grasped and difference of object from previous time step (to represent change in size of the object for grow command).
+The actions that can be taken are grasp an object (discrete action) and movement in 4 directions (left, right, up, down) which is a continuous action.
+The playground serves as an environment in our RL problem.
+
+The IMAGINE agent is responsible for both the Goal discovery as well as the learning.
+Hence it has to learn a reward function, a policy function and a critic function.
+As each goal (Compound of our construction grammar) expects a different outcome, the reward function as well as the policy is different for each goal.
+The IMAGINE agent, thus,  has to learn all functions conditioned on the goal.
+
+The working of IMAGINE starts with a goal generator.
+With equal probability the agent selects known goals and tries to imagine new goals.
+The imagining of new goals is based on finding equivalent words.
+If 2 complexes are only different  by one atom, the 2 atoms are equivalent (aka the distance between compounds is 1).
+These equivalent words are substituted to other compounds to generate new goals.
+For example - "Grasp red plant", "Grow red plant" have only 1 atom different Grasp-Grow.
+Hence Grasp and Grow are considered equivalent.
+If we have a known goal like "Grasp white cat", We can replace grasp with its equivalent word Grow to imagine a new goal "Grow white cat".
+This goal is passed through an LSTM to generate a goal embedding.
+At the beginning the IMAGINE agent knows no goals and its policy and reward functions are completely random.
+Hence, it selects a random goal embedding (the real valued vector).
+
+After this, the Social partner creates an environment for the agent to accomplish the goal.
+The agent then follows the random policy conditioned on the goal.
+After a set amount of steps ( end of an episode), the Social Partner describes the final state of the agent with a Compound. This compound may not be our target goal, nevertheless, the Social partner describes it to IMAGINE.
+IMAGINE agent stores the positive reward tuple (1, Goal) which means a positive reward and the corresponding goal described by social partner in its reward memory.
+It also stores the negative reward tuples (0, Goals known to agent but not accomplished) in the same memory.
+The data in this memory is used to train our reward function approximator as a binary classifier.
+Similarly, the agent stores the Social Partner's descriptions of the agent's state. This memory is used to train the LSTM for finding the goal embeddings.
+The whole trajectory of the episode is also stored in a separate memory with the corresponding goal accomplished.
+This is used to train our agent's policy and critic using Hindsight Experience Replay.
+With the increase in the number of goal descriptions, the reward function, goal embedding function, the critic and the policy functions become better.
+
+There are 2 types of generalizations that are possible for our IMAGINE agent.
+One in the state space and other in the goals space.
+The authors do not discuss about generalization in the state space as the accuracy of this generalisation is quite high.
+They show how their imagination architecture helps the agent to generalize to new goals.
+Interestingly the IMAGINE agent was able to imagine and accomplish the goals of type- "Grow red furniture" and "Grow any plant".
+
+The "Grow red furniture" is interesting as the same behaviour is seen with children who feed their doll not  knowing that the doll cannot grow.
+This is a clear example that the policy has been learned and generalized to the "Grow" goal. Hence when the policy is conditioned on the "Grow" goal, it tries to bring food and water to the object. 
+
+The "Grow any plant" is more interesting because first IMAGINE is not told that the plants can grow.
+Second plants can only be grown using water and not food.
+When "Grow any plant" goal is imagined, our agent follows a policy for growing any object and brings food and water to the plant.
+However, the agent only completes the goal and gets regards when it brings water to the plants.
+For all goals of this sort the hindsight experience replay will be different at the end of the goal than for animals.
+This will help our policy network to adapt its behaviour for the goal "Grow any plant" when the policy trains on the stored trajectories.
+This goal discusses about behaviour adoption of our policy when imagining.
+
+\end{document}
