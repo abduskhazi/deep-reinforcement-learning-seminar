@@ -166,8 +166,90 @@ generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralizati
 The authors are primarily concerned with Goal Generalization in the paper.
 
 
-\section{Synthetic Environment}
+\section{Synthetic Environment - Playground}
 \label{EnvironmentSection}
+Because of the complexity reasons mentioned in \ref{ConstructionGrammarSection}
+the authors do not learn a full blown Perception agent.
+The environment is a 2D space in which the agent and the objects are represented as circles (internally).
+3 types of objects are hard coded in the environment - living things e.g. a plant,  a cat,  a lion etc., non living things e.g. a chair, a table etc. 
+and supplies i.e food and water.
+
+The objects together with the construction grammar form a virtual farm in which the agent can Grasp and move the objects and also grow the living things.
+The objects can be referenced using their predicates. 
+These predicates are organised in a hierarchy similar to the class hierarchy in an Object Oriented Programming language.
+The predicates aid the curiosity algorithm to make bigger jumps within the goal space.
+For example, "Grow red Animal" generalised to "Grow red Plant" is a huge jump in the goal space than jumping from "Grow red Cat" to "Grow red Dog".
+This is because plants can only be grown with water unlike the animals that can grow with both water and food.
+Figure~\ref{fig:EnvironmentLayout} shows the environment layout created in one instance.
+Figure~\ref{fig:ObjectsAndHeirarchy} shows the hard coded objects in the environment used for testing.
+
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/EnvironmentLayout}
+    \caption{The Playground Environment}
+    \label{fig:EnvironmentLayout}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.55\textwidth}
+    \includegraphics[width=1.0\textwidth]{img/ObjectsAndHeirarchy}
+    \caption{Objects in the Environment}
+    \label{fig:ObjectsAndHeirarchy}
+  \end{minipage}
+\end{figure}
+
+\subsection{Environment Representations}
+\label{EnvironmentRepresentationSection}
+As the agent, in principle, is a Reinforcement Learning agent,  the following representations are defined for the environment - 
+\begin{itemize}
+\item object = $[d, r, g, b, ...] \in \mathbf{R}^n$ where $n \in \mathbf{I}^+$
+\item agent = $[x, y, g]$ and action = $[\delta x, \delta y, \delta g]$
+\item observation = $[$agent$]$ +$[$object$]_1$ +$[$object$]_2$ ...
+\item state = $[$observation$]$ + $[\delta$observation$]$
+\end{itemize}
+Where $d \in \mathbf{R}$ is for diameter, $[x, y] \in \mathbf{R}^2$ is the position in 2D space,
+$g \in \{-1, 1\}$ is wether an object is grasped or not by the agent and
+$[r, g, b] \in \mathbf{R}^3$ represents Color.
+
+\section{Language Encoder and function approximators}
+The main functions of our RL agent i.e the Reward,  the Policy and the Critic are function approximators represented by Deep Neural Networks.
+Because our agent is a multi-skilled agent, these function approximators should be conditioned on the target goal.
+Because the target goal in its NL state cannot be used as a conditioner, the authors use a Long Short-Term Memory (LSTM) network to encode the goal into $\mathbf{R}^{100}$.
+The LSTM network is the language encoder and is represented by the function
+$L_e : g \mapsto \mathbf{R}^{100} \; \forall g \in G$ where $G$ is the set of goals obtainable from the Construction Grammar.
+
+\subsection{Reward (R),  policy($\pi$) and Critic (Q) function approximators}
+Deep Neural Network is used as a function approximator for R, $\pi$ and Q functions.
+In the environment's , the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].
+Hence all the function approximators have to be permutation invariant.
+This is accomplished by dividing the state into object specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}.
+% The reward function is learnt as a binary classifier and is defined as $R(s, g) : \mathbf{S} \times \mathbf{R}^{100} \mapsto \{0,1\} $ 
+
+
+\section{Proposed Architecture}
+The curiosity algorithm is an intrinsic part of the proposed architecture by the authors.
+Hence the agent is intrinsically motivated.
+Similarly the Social Partner is also an intrinsic part of the architecture hence there is always guidance given to the agent 
+so that the agent can learn skills in its Proximal Zone of Development.
+
+The basic idea - Run the algorithm.
+Store anything that is interesting and use the data stored in the memory to 
+
+\section{Working of the Imagine Algorithm}
+
+\section{Goal generalization}
+
+\section{Experiments and Results}
+
+\subsection{Study on Goal Imagination}
+
+\subsection{Studying the effect of changes in Social Partner}
+
+\section{Limitations and Future Work}
+
+\section{Critical Review}
+
+\section{Conclusion}
 
 \section{Garbage}
 
@@ -183,12 +265,7 @@ They contain words that explain complex concepts using sufficiently high levels 
 This combinatorial composition aids in the development of novel goals.
 \end{itemize}
 
-The study of Artificial intelligence,  traditionally, has assumed that in the development of artificial agents ha
-Traditional Machine learning is done by specifying both the goal and the learning algorithms.  Eg: We may use deep learning to learn a classifier (Goal) and use stochastic gradient descent (learning algorithm) to learning it.  In vanilla RL we only define the goal, albeit indirectly, by engineering the reward function.
-As the second component of learning, in principle, can be tackled by the RL algorithms,
-the authors of this paper propose an Deep RL agent that requires only guidance for the Goal discovery part i.e the first part.
-
-
+\ifx false
 Figure~\ref{fig:octomap}.
 
 \begin{figure}[htb]
@@ -198,18 +275,7 @@ Figure~\ref{fig:octomap}.
     \label{fig:octomap}
 \end{figure}
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-
-\subsection{A Subsection}   
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. This is a simple equation:
-
 \begin{equation}
 	\int_0^\infty e^{-x}\mathrm{d}x = 1
 \end{equation}
-
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer.
-
-\section{My Second Section}
-
-This is the second section. \todo{Write more...}
+\fi
