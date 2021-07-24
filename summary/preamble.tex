@@ -1,0 +1,31 @@
+\documentclass[11pt,twoside,bibliography=totoc]{scrartcl}
+
+% Resemble a4wide style
+\usepackage{geometry}
+\geometry{
+	includeheadfoot,
+	margin=2.54cm
+}
+
+% Other packages
+\usepackage[english]{babel} % Document in English language
+\usepackage[pdftex]{hyperref}% Clickable links
+\usepackage[all]{hypcap} % Hyperref jumps to image instead of caption for image labels
+\usepackage[latin1]{inputenc} % Correct font encoding for special characters
+\usepackage[T1]{fontenc} % Correct separation for special characters
+\usepackage{lmodern} % Modern font type
+\usepackage{amsmath} % Math functionalities
+\usepackage{graphicx} % Images
+\usepackage{color} % Colourful text
+
+% Configuration
+\bibliographystyle{abbrv} %Reference literature by number
+\hypersetup{ % No borders around links
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+% Custom commands
+\newcommand{\todo}[1]{\textbf{\textcolor{red}{(TODO: #1)}}}
+
+
