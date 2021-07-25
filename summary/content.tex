@@ -163,7 +163,6 @@ Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learnt to m
 be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.
 However only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can 
 generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
-The authors are primarily concerned with Goal Generalization in the paper.
 
 
 \section{Synthetic Environment - Playground}
@@ -227,33 +226,177 @@ This is accomplished by dividing the state into object specific parts and using 
 
 
 \section{Proposed Architecture}
-The curiosity algorithm is an intrinsic part of the proposed architecture by the authors.
-Hence the agent is intrinsically motivated.
-Similarly the Social Partner is also an intrinsic part of the architecture hence there is always guidance given to the agent 
-so that the agent can learn skills in its Proximal Zone of Development.
+Figure~\ref{fig:ProposedAgentArchitecture} shows the complete architecture proposed in the paper.
+\textbf{IMAGINE} is an acronym which stands for \textbf{I}ntrinsic \textbf{M}otivations \textbf{A}nd \textbf{G}oal \textbf{IN}vention for \textbf{E}xploration.
+Observe that Goal Generation is a part and parcel of the architecture, hence the agent is intrinsically motivated.
+The Social Partner in the architecture does the guidance for the agent according to the \textit{Theory of Proximal Zone of Development}.
+Since the reward (\textbf{R}) and policy ($\pi$) are conditioned on the goal,  the language encoder ($\mathbf{L}_{\mathbf{e}}$) is represented
+within the reward and the policy block.
 
-The basic idea - Run the algorithm.
-Store anything that is interesting and use the data stored in the memory to 
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=1.0\textwidth]{img/ProposedAgentArchitecture}
+    \caption{Complete Architecture of the IMAGINE Agent}
+    \label{fig:ProposedAgentArchitecture}
+\end{figure}
+
+The basic idea of the architecture is this - make the agent explore the environment.
+Store anything that is interesting in memory.
+Thereafter use the memory to train the function approximators.
+As shown in Figure~\ref{fig:ProposedAgentArchitecture},  the authors use 2 types of memories to store the data
+\begin{itemize}
+\item mem($\pi$) - To store the trajectories that the agent has experienced.
+\item mem(\textbf{R}) - To store the mapping between the goal ($g$),  the state ($s$) and reward ($r$). 
+
+$r = 1$ if $s$ is the goal state for $L_e(g)$ otherwise $r = 0$.
+
+\end{itemize}
 
 \section{Working of the Imagine Algorithm}
+The following steps describe the working of the Imagine Algorithm
+\begin{enumerate}
+\item All function approximators i.e $L_e$,  R,  $\pi$ are randomly initialized.
+The memories i.e mem(R),   mem($\pi$),  knonwn Goals ($G^{known}$) and Imagined Goals($G^{Imagined}$) are initialized to empty
+\item For $N_{episodes}$ goals are randomly sampled from the known and Imagined Goals.
+Using $L_e$ the goal is mapped to $\mathbf{R}^{100}$
+If the known and imagined goals are empty,  it samples the goals from a normal distribution.
+\item Then the agent rolls out the policy conditioned on the goal i.e $\pi(s, g)$.
+The trajectory of the agent is stored in mem($\pi$).
+\item At the end of an episode i.e when the state of the environment is $s_T$,  the social partner "Describes" this state with a description G. 
+The agent stores G as a known goal.
+The agent also stores the mapping from G to $s_T$ in the mapping mem(R).
+\item The agent then tries to imagine new goals from the set of known goals.
+\item Batches of trajectories are then taken from mem($\pi$),  passed through the reward function to get the rewards at each state.
+Using Hindsight Experience Replay,  the policy ($\pi$) is updated.
+Any off-policy learning algorithm can be used for this purpose (Here the authors used DDPG).
+\item Using the mapping between $s_T$ and $g$ in mem($R$),  the reward function ($R$) is trained as a classification problem and the LSTM Language encoder $L_e$ is
+trained as a regression problem.
+\end{enumerate}
+
+Figure~\ref{fig:ImagineAlgorithm} shows the complete algorithm as given in the paper.
+
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=1.0\textwidth]{img/ImagineAlgorithm}
+    \caption{The IMAGINE algorithm.}
+    \label{fig:ImagineAlgorithm}
+\end{figure}
 
 \section{Goal generalization}
+The authors are primarily concerned with Goal Generalization in the paper.
+This is because the state-space generalization achieves almost perfect generalization as reported by them ($0.95 \pm 0.05$).
+2 distinct types of generalization were observed in the agent
+\begin{itemize}
+\item \textbf{Grow generalization to non living things.}
+This can be trivially obtained by using the Construction Grammar.
+If the agent has seen a goal like "Grow green animal",  the agent can replace "animal" with table to obtain a goal like "Grow green table".
+This is very similar to a child trying to feed dolls not knowing that the dolls cannot grow.
+\item \textbf{Behaviour adaptation to growing the plants.}
+The Social Partner does not describe or specify to the agent that plants can grow.
+Nevertheless the agent can use the Construction Grammar to create a goal like "Grow Green Plant".
+However,  the reward function has been trained before using goals like "Grow Red Cat",  "Grow blue Lion" etc to give a positive reward only when the object grows.
+The plants can only be grown using water and not food (unlike animals).
+The agent brings both water and food to the plant to grow it because the policies before have only be trained with growing animals.
+The reward only gives a positive reward when the agent brings water (because the plants only grow with water).
+This whole trajectory is stored in mem($\pi$).
+Subsequent training of the agent using Hindsight Experience Replay trains the policy to bring water when trying to accomplish the "Grow ... plant" goal
+and to bring water or food on other Goals.
+This is called behaviour adaptation.
+\end{itemize}
 
 \section{Experiments and Results}
 
-\subsection{Study on Goal Imagination}
+\subsection{Study on Goal Imagination Mechanisms}
+To test and quantify their goal generation mechanism, the authors define 2 terms called \textit{Coverage} and \textit{Precision}.
+Coverage is the fraction of the goals in the test set that the agent has imagined.
+Precision is the fraction of the imagined goals that are achievable.  More formally \\
+Coverage $ = \frac{|G(im) \cap |G(test)|}{ |G(test)| }  $ and Precision $ = \frac{|G(im) \cap |G(achievable)|}{ |G(im)| }$.
+
+To compare the results, the authors used the following Goal generation mechanisms -
+\begin{itemize}
+\item Oracle - Used as a reference.  Goals are only imagined from the test set.
+\item Low coverage - Coverage is reduced by filtering out goals imagined on the test set with a particular probability.
+\item Low precision - Precision is reduced by filtering out achievable goals with a particular probability.
+\item Random Goal Generation - Compounds are created by using random words.
+\end{itemize}
+Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision values for each of the mechanisms.
+
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/ExperimentsAndResults}
+    \caption{Experiments and Results}
+    \label{fig:ExperimentsAndResults}
+\end{figure}
+
+The observation that the authors make is that the performance of an agent trained with Construction Grammar Heuristics and an oracle goal generation mechanism
+is almost the same.
+The training on Low coverage goal generation mechanism also gave reasonably good performance.
+However,  training on a low precision goal generation mechanism reduces the performance of the agent significantly.
+Hence,  the precision of the goal imagination mechanism was found to be more important than its coverage.
 
 \subsection{Studying the effect of changes in Social Partner}
+The authors initially assume that the social partner is fully present during the training phase.
+They also assume exhaustiveness i.e the SP gives perfect descriptions to the agent.
+The authors reduced the exhaustiveness assumption of the Social Partner and gave "imperfect" guidance to the agent.
+This reduced the performance of the agent quite significantly.
 
-\section{Limitations and Future Work}
+The authors then tried to strategically reduce the presence of the social partner.
+The social partner was made available only in the first 10\% of the time.
+This lead to almost the same performance as compared to the normal imagining agent.
+This is quite similar to babies requiring extensive guidance in the initial years and later they can learn by their own imagination.
 
-\section{Critical Review}
+Figure~\ref{fig:SocialFeedbackAnalysis}  shows the influence of social feedbacks on the performance of the agent.
 
-\section{Conclusion}
+\begin{figure}[htb]
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/SocialFeedbackAnalysis}
+    \caption{Influence of social Feedbacks.}
+    \label{fig:SocialFeedbackAnalysis}
+\end{figure}
+
+\section{Critical Review and Future Work}
+In the paper,  one of the limitations is that the authors have completed their proof of work on a synthetic environment.
+The environment itself is very simple.
+One of the ways in which these research results can get more weight is by using a simulator that simulates a real environment.
+This is already done to test most of the Deep Reinforcement learning algorithms.
+The algorithms are tested and trained in a simulator and then only the resulting (function approximated) policy is
+transferred to the hardware.
+It would be nice if they employed a similar strategy to test and report their results.
+
+The language used for the construction grammar heuristics is really constrained and simple.
+The most practical usage of this architecture,  however,  would be in a normal environment using a natural language.
+This is because the Social Partner would be a human giving directions/guidance to the agent in a narural language.
+The exploration in a goal space defined by a Natural Language grammar is not reported in the paper.
+Hence the practical application of this architecture still needs investigation.
+
+The function approximators used in the architecture are LSTM and Deep Neural Networks.
+These are very powerful models and can lead to over fitting.
+The authors have reported that the state space generalization is near perfect $0.95 \pm 0.05$.
+Perhaps the reason for this is the usage of more powerful models.
+It could be helpful if the authors reported the usage of simpler models.
+
+Lastly,  the computation costs for training the network is very high.
+As reported in the appendix,  the cost of training is 2.5 CPU years.
+As the used environment and the language was simple,  we can only extrapolate that the cost of training in a more
+practical environment and a natural language would be very expensive.
+Hence it could be helpful if the authors proposed particular training algorithms that are more practical in terms of cost of training.
+
+\section{Future works and Conclusion}
+In future works,  the authors suggest the usage of a more complex construction heuristics grammar to emulate the mechanics of natural languages.
+By doing this the authors say that better agents may be trained.
+Furthermore,  they also say that there needs to be more research to reduce the assumptions made for the Social Partner i.e perfect presence and perfect descriptions given by the SP.
+Currently only when the agent stumbles upon an interesting state, the Social Partner describes it.
+The authors suggest that,  instead of this,  it might be an interesting research area in which the Social Partner shows what to do and the agent mimics it.
+
+In conclusion,  even though the work shown in this paper is just a proof of concept,  we can acknowledge that it is quite orthogonal to other works in the RL field.
+The authors try to address the long standing problem of goal engineering in the the RL realm from a different perspective.
+What is notable,  is that this paper tries to combine the ideas from diverse fields like psychology and linguistics.
+Perhaps in the convergence of many fields of knowledge lies the key to building general intelligence in computing agents!
+
+\ifx false
 
 \section{Garbage}
 
-\ifx false
 % Disabling this because there is no space to put this into the summary
 \section{Language - A medium for Curiosity and Guidance}
 The authors use Language for both goal discovery (curiosity) as well as for guidance of the agent because
