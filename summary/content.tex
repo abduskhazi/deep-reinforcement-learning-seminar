@@ -31,13 +31,13 @@ This is a part of machine learning that tries to mimic the ways infants try to l
   \centering
   \begin{minipage}[b]{0.3\textwidth}
     \includegraphics[width=1.0\textwidth]{img/kindPlayingBlock}
-    \caption{A kid playing with blocks~\cite[p.~3]{kindPlayingBlock}.}
+    \caption{A kid playing with blocks~\cite{kindPlayingBlock}.}
     \label{fig:kindPlayingBlock}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=1.0\textwidth]{img/ZPD}
-    \caption{ZDP~\cite[p.~3]{ZPD}.}
+    \caption{ZDP~\cite{ZPD}.}
     \label{fig:ZPD}
   \end{minipage}
 \end{figure}
@@ -53,7 +53,7 @@ The key idea is this - there has to be someone to guide the child.  This is iden
 \subsection{Previous works and their limitations}
 In the previous works and this work,  each goal is given by $g \in \mathbf{R}^m$.  Using a set of known Goals $G$,  previous papers trained models such as \textit{Adversarial Neural Networks} and \textit{Variational Auto-Encoders}.  Using these models,  new goals within the known/seen distribution were created.  This is a limitation because it is not a novel goal for the agent.  E.g. The tasks - Building a stack of blocks and a stack of books are within the same goal distribution.  But they are not novel for the child.  What is novel is to jump to building a pyramid which is an out-of-distribution Goal.  The authors try to overcome this limitation by using language for generating new goals instead of the above generative models.
 
-\subsection{Goal Generation Mechanism - Construction Grammar}
+\subsection{Goal Generation Mechanism - Construction Grammar \cite{constructionGrammar}}
 \label{ConstructionGrammarSection}
 
 The authors make use of a concept called Construction Grammar to generate new goals. Construction Grammar can generate out of known distribution goals.  Each word, being \textbf{semantically undividable} is called an atom.  Atoms combine to form compounds which are ultimately sentences describing goals.  Figure~\ref{fig:CGFundamentals} provides an example.
@@ -70,7 +70,7 @@ To study the effects of Goal generalization in isolation, the authors do not use
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.8\textwidth]{img/ConstructionGrammarImage}
-    \caption{Construction Grammar used in the Paper.}
+    \caption{Construction Grammar used in the Paper.\cite{researchPaper}}
     \label{fig:ConstructionGrammarImage}
 \end{figure}
 
@@ -80,7 +80,7 @@ The essence of this algorithm is that the authors try to compute equivalent atom
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/CuriosityAlgorithm}
-    \caption{Curiosity Algorithm.}
+    \caption{Curiosity Algorithm.\cite{researchPaper}}
     \label{fig:CuriosityAlgorithm}
 \end{figure}
 
@@ -120,13 +120,13 @@ The objects together with the construction grammar form a virtual farm in which 
   \centering
   \begin{minipage}[b]{0.35\textwidth}
     \includegraphics[width=1.0\textwidth]{img/EnvironmentLayout}
-    \caption{The Playground Environment}
+      \caption{The Playground Environment. \cite{researchPaper}}
     \label{fig:EnvironmentLayout}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.55\textwidth}
     \includegraphics[width=1.0\textwidth]{img/ObjectsAndHeirarchy}
-    \caption{Objects in the Environment}
+      \caption{Objects in the Environment.\cite{researchPaper}}
     \label{fig:ObjectsAndHeirarchy}
   \end{minipage}
 \end{figure}
@@ -148,7 +148,7 @@ $[r, g, b] \in \mathbf{R}^3$ represents Color.
 The main functions of our RL agent i.e the Reward,  the Policy, and the Critic are function approximators represented by Deep Neural Networks.  Because our agent is multi-skilled, these function approximators should be conditioned on the target goal.  Because the target goal in its NL state cannot be used as a conditioner, the authors use a Long Short-Term Memory (LSTM) network to encode the goal into $\mathbf{R}^{100}$.  The LSTM network is the language encoder and is represented by the function $L_e : g \mapsto \mathbf{R}^{100} \; \forall g \in G$ where $G$ is the set of goals obtainable from the Construction Grammar.
 
 \subsection{Reward (R),  policy($\pi$) and Critic (Q) function approximators}
-Deep Neural Network is used as a function approximator for R, $\pi$, and Q functions.  In the environment, the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].  Hence all the function approximators have to be permutation invariant.  This is accomplished by dividing the state into object-specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}.
+Deep Neural Network is used as a function approximator for R, $\pi$, and Q functions.  In the environment, the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].  Hence all the function approximators have to be permutation invariant.  This is accomplished by dividing the state into object-specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}\cite{zaheer2018deep}.
 % The reward function is learnt as a binary classifier and is defined as $R(s, g) : \mathbf{S} \times \mathbf{R}^{100} \mapsto \{0,1\} $ 
 
 
@@ -158,7 +158,7 @@ Figure~\ref{fig:ProposedAgentArchitecture} shows the complete architecture propo
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/ProposedAgentArchitecture}
-    \caption{Complete Architecture of the IMAGINE Agent}
+    \caption{Complete Architecture of the IMAGINE Agent. \cite{researchPaper}}
     \label{fig:ProposedAgentArchitecture}
 \end{figure}
 
@@ -197,7 +197,7 @@ Figure~\ref{fig:ImagineAlgorithm} shows the complete algorithm as given in the p
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/ImagineAlgorithm}
-    \caption{The IMAGINE algorithm.}
+    \caption{The IMAGINE algorithm.\cite{researchPaper}}
     \label{fig:ImagineAlgorithm}
 \end{figure}
 
@@ -226,7 +226,7 @@ Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision valu
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.8\textwidth]{img/ExperimentsAndResults}
-    \caption{Experiments and Results}
+    \caption{Experiments and Results.\cite{researchPaper}}
     \label{fig:ExperimentsAndResults}
 \end{figure}
 
@@ -243,7 +243,7 @@ Figure~\ref{fig:SocialFeedbackAnalysis}  shows the influence of social feedbacks
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.5\textwidth]{img/SocialFeedbackAnalysis}
-    \caption{Influence of social Feedbacks.}
+    \caption{Influence of social Feedbacks. \cite{researchPaper}}
     \label{fig:SocialFeedbackAnalysis}
 \end{figure}
 
