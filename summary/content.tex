@@ -145,27 +145,15 @@ $g \in \{-1, 1\}$ is wether an object is grasped or not by the agent and
 $[r, g, b] \in \mathbf{R}^3$ represents Color.
 
 \section{Language Encoder and function approximators}
-The main functions of our RL agent i.e the Reward,  the Policy and the Critic are function approximators represented by Deep Neural Networks.
-Because our agent is a multi-skilled agent, these function approximators should be conditioned on the target goal.
-Because the target goal in its NL state cannot be used as a conditioner, the authors use a Long Short-Term Memory (LSTM) network to encode the goal into $\mathbf{R}^{100}$.
-The LSTM network is the language encoder and is represented by the function
-$L_e : g \mapsto \mathbf{R}^{100} \; \forall g \in G$ where $G$ is the set of goals obtainable from the Construction Grammar.
+The main functions of our RL agent i.e the Reward,  the Policy, and the Critic are function approximators represented by Deep Neural Networks.  Because our agent is multi-skilled, these function approximators should be conditioned on the target goal.  Because the target goal in its NL state cannot be used as a conditioner, the authors use a Long Short-Term Memory (LSTM) network to encode the goal into $\mathbf{R}^{100}$.  The LSTM network is the language encoder and is represented by the function $L_e : g \mapsto \mathbf{R}^{100} \; \forall g \in G$ where $G$ is the set of goals obtainable from the Construction Grammar.
 
 \subsection{Reward (R),  policy($\pi$) and Critic (Q) function approximators}
-Deep Neural Network is used as a function approximator for R, $\pi$ and Q functions.
-In the environment's , the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].
-Hence all the function approximators have to be permutation invariant.
-This is accomplished by dividing the state into object specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}.
+Deep Neural Network is used as a function approximator for R, $\pi$, and Q functions.  In the environment, the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].  Hence all the function approximators have to be permutation invariant.  This is accomplished by dividing the state into object-specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}.
 % The reward function is learnt as a binary classifier and is defined as $R(s, g) : \mathbf{S} \times \mathbf{R}^{100} \mapsto \{0,1\} $ 
 
 
 \section{Proposed Architecture}
-Figure~\ref{fig:ProposedAgentArchitecture} shows the complete architecture proposed in the paper.
-\textbf{IMAGINE} is an acronym which stands for \textbf{I}ntrinsic \textbf{M}otivations \textbf{A}nd \textbf{G}oal \textbf{IN}vention for \textbf{E}xploration.
-Observe that Goal Generation is a part and parcel of the architecture, hence the agent is intrinsically motivated.
-The Social Partner in the architecture does the guidance for the agent according to the \textit{Theory of Proximal Zone of Development}.
-Since the reward (\textbf{R}) and policy ($\pi$) are conditioned on the goal,  the language encoder ($\mathbf{L}_{\mathbf{e}}$) is represented
-within the reward and the policy block.
+Figure~\ref{fig:ProposedAgentArchitecture} shows the complete architecture proposed in the paper.  \textbf{IMAGINE} is an acronym which stands for \textbf{I}ntrinsic \textbf{M}otivations \textbf{A}nd \textbf{G}oal \textbf{IN}vention for \textbf{E}xploration.  Observe that Goal Generation is a part of the architecture, therefore the agent is intrinsically motivated.  The Social  Partner in the architecture does the guidance for the agent according to the \textit{Theory of Proximal Zone of Development}.  Since the reward (\textbf{R}) and policy ($\pi$) are conditioned on the goal,  the language encoder ($\mathbf{L}_{\mathbf{e}}$) is represented within the reward and the policy block.
 
 \begin{figure}[htb]
   \centering
@@ -174,10 +162,7 @@ within the reward and the policy block.
     \label{fig:ProposedAgentArchitecture}
 \end{figure}
 
-The basic idea of the architecture is this - make the agent explore the environment.
-Store anything that is interesting in memory.
-Thereafter use the memory to train the function approximators.
-As shown in Figure~\ref{fig:ProposedAgentArchitecture},  the authors use 2 types of memories to store the data
+The basic idea of the architecture is this - make the agent explore the environment.  Store anything interesting in memory.  Thereafter, use the memory to train the function approximators.  As shown in Figure~\ref{fig:ProposedAgentArchitecture},  the authors use 2 types of memories to store the data -
 \begin{itemize}
 \item mem($\pi$) - To store the trajectories that the agent has experienced.
 \item mem(\textbf{R}) - To store the mapping between the goal ($g$),  the state ($s$) and reward ($r$). 
