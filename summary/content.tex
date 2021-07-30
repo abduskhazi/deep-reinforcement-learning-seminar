@@ -202,26 +202,12 @@ Figure~\ref{fig:ImagineAlgorithm} shows the complete algorithm as given in the p
 \end{figure}
 
 \section{Goal generalization}
-The authors are primarily concerned with Goal Generalization in the paper.
-This is because the state-space generalization achieves almost perfect generalization as reported by them ($0.95 \pm 0.05$).
-2 distinct types of generalization were observed in the agent
+The authors are primarily concerned with Goal Generalization in the paper.  This is because the state-space generalization achieves almost perfect generalization as reported by them ($0.95 \pm 0.05$).  2 distinct types of generalization were observed in the agent
 \begin{itemize}
-\item \textbf{Grow generalization to non living things.}
-This can be trivially obtained by using the Construction Grammar.
-If the agent has seen a goal like "Grow green animal",  the agent can replace "animal" with table to obtain a goal like "Grow green table".
-This is very similar to a child trying to feed dolls not knowing that the dolls cannot grow.
-\item \textbf{Behaviour adaptation to growing the plants.}
-The Social Partner does not describe or specify to the agent that plants can grow.
-Nevertheless the agent can use the Construction Grammar to create a goal like "Grow Green Plant".
-However,  the reward function has been trained before using goals like "Grow Red Cat",  "Grow blue Lion" etc to give a positive reward only when the object grows.
-The plants can only be grown using water and not food (unlike animals).
-The agent brings both water and food to the plant to grow it because the policies before have only be trained with growing animals.
-The reward only gives a positive reward when the agent brings water (because the plants only grow with water).
-This whole trajectory is stored in mem($\pi$).
-Subsequent training of the agent using Hindsight Experience Replay trains the policy to bring water when trying to accomplish the "Grow ... plant" goal
-and to bring water or food on other Goals.
-This is called behaviour adaptation.
+\item \textbf{Grow generalization to non-living things.} This can be trivially obtained by using the Construction Grammar.  If the agent has seen a goal like "Grow green animal",  the agent can replace "animal" with "table" to obtain a goal like "Grow green table".  This is very similar to a child trying to feed dolls not knowing that the dolls cannot grow.
+\item \textbf{Behaviour adaptation to growing the plants.} The Social Partner does not describe or specify to the agent that plants can grow.  Nevertheless, the agent can use the Construction Grammar to create a goal like "Grow Green Plant".  However,  the reward function has been trained before using goals like "Grow Red Cat",  "Grow blue Lion" etc to give a positive reward only when the object grows.  The plants can only be grown using water and not food (unlike animals).  The agent brings both water and food to the plant to grow it because the policies before have only be trained with growing animals.  The reward only gives a positive reward when the agent brings water (because the plants only grow with water).  This whole trajectory is stored in mem($\pi$).  Subsequent training of the agent using Hindsight Experience Replay trains the policy to bring water when trying to accomplish the "Grow ... plant" goal and to bring water or food on other Goals.  This is called behavior adaptation.
 \end{itemize}
+
 
 \section{Experiments and Results}
 
