@@ -5,7 +5,7 @@ The learning or development of any intelligent agent can be divided into 2 succe
   \item Understanding or finding the target task. (Goal Discovery)
   \item Learning the task itself.
 \end{enumerate}
-These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accomplished in a sequential manner.  Most of the work in contemporary machine learning has assumed that the task to accomplish is already given and understood.  All that remains is to program the computing agent to learn the task.  For example,  to find fraud in bank transactions,  it is clear that the main objective is the classification of transactions as good and bad.  The main question that remains is - How do we learn the best classifier?  Interestingly,  the learning processes of the classifier are also determined by the choice of the machine learning model e.g.  ANN,  Random Forest Classifier, etc.
+These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accomplished in a sequential manner.  Most of the work in contemporary machine learning assumes that the task to accomplish is already given and understood.  For example,  to find fraud in bank transactions,  the main objective is clearly the classification of transactions as good or bad.  The main question that remains is - How do we learn the best classifier?  One can use classical machine learning models like  ANN,  Random Forest Classifier, etc.  or a more general learning paradigm like Reinforcement Learning.  Notice, however, that RL still only deals with the second phase of learning.  This is because the task to learn is intrinsically provided to the agent in the form of a reward function.
 
 \begin{figure}[htb]
   \centering
@@ -13,8 +13,6 @@ These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accompli
     \caption{Learning Stages.}
     \label{fig:LearningPhases}
 \end{figure}
-
-Even though the selection of the ML models is automated to some extent using AutoML, this methodology fails for the sequential decision-making tasks.  For solving this issue, Reinforcement Learning was developed as a general learning paradigm.  Notice, however, that RL still only deals with the second phase of learning.  This is because the task to learn is intrinsically provided to the agent in the form of a reward function.
 
 The authors of this paper,  in contrast, focus mainly on the first phase of learning. They propose an agent architecture that not only learns multiple skills but also generalizes learning to new skills. Thus their agent is an open-ended multi-skill learning agent. They use (Deep) RL to their advantage for the second phase of learning as it is a general learning paradigm. Hence the agent has to learn to formulate the goal as a reward function.  Subsequently, it has to use the reward function to learn the task.
 
@@ -42,12 +40,10 @@ This is a part of machine learning that tries to mimic the ways infants try to l
   \end{minipage}
 \end{figure}
 
-Hence psychologists say that children are intrinsically motivated or curious.  The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.  They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
+The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.  They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
 
 \subsection{Theory of Zone of Proximal Development}
-This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner at any stage of development.  Figure~\ref{fig:ZPD} shows an illustration of these zones.  The internal zone consists of skills that the learner can learn on his own.  E.g. The child will be able to generalize building a stack of books after he learns how to build a stack of blocks.  The middle zone,  aka \textit{Zone of Proximal Development},  consists of skills that the learner can accomplish only with the help of some guidance.  E.g.  The child can learn how to build a pyramid, but he would require some guidance for this.  The outermost zone consists of skills that cannot be accomplished even with the help of guidance.  E.g.  Building a ship structure using lego blocks is beyond the child's capability regardless of the guidance given.
-
-The key idea is this - there has to be someone to guide the child.  This is identical to the parent-child learning dynamics.  Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
+This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner.  Figure~\ref{fig:ZPD} shows an illustration of these zones.  The internal zone consists of skills that the learner can learn on his own.  The middle zone,  aka \textit{Zone of Proximal Development},  consists of skills that the learner can accomplish only with the help of some guidance.   The outermost zone consists of skills that cannot be accomplished even with the help of guidance.  The key idea is this - there has to be someone to guide the child.  This is identical to the parent-child learning dynamics.  Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
 
 \section{Goal Generation and Generalization}
 \subsection{Previous works and their limitations}
