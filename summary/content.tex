@@ -9,7 +9,7 @@ These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accompli
 
 \begin{figure}[htb]
   \centering
-    \includegraphics[width=1.0\textwidth]{img/LearningPhases}
+    \includegraphics[width=0.1\textwidth]{img/LearningPhases}
     \caption{Learning Stages.}
     \label{fig:LearningPhases}
 \end{figure}
@@ -24,7 +24,7 @@ The inspirations of this paper come from 2 sources, namely,  \textit{Development
 \subsection{Developmental Machine Learning}
 This is a part of machine learning that tries to mimic the ways infants try to learn new skills.  According to psychologists,  the way infants get their internal satisfaction or reward is by accomplishing novel goals.  For example, in Figure~\ref{fig:kindPlayingBlock}, after learning how to build a block tower, the child is no longer interested in repeating this task.  Even accomplishing a similar task like building a tower of books is also not very interesting or satisfying.  The novelty of the task is essential!
 
-
+\ifx false
 \begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.3\textwidth}
@@ -39,6 +39,7 @@ This is a part of machine learning that tries to mimic the ways infants try to l
     \label{fig:ZPD}
   \end{minipage}
 \end{figure}
+\fi
 
 The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.  They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
 
@@ -54,31 +55,37 @@ In the previous works and this work,  each goal is given by $g \in \mathbf{R}^m$
 
 The authors make use of a concept called Construction Grammar to generate new goals. Construction Grammar can generate out of known distribution goals.  Each word, being \textbf{semantically undividable} is called an atom.  Atoms combine to form compounds which are ultimately sentences describing goals.  Figure~\ref{fig:CGFundamentals} provides an example.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.8\textwidth]{img/CGFundamentals}
     \caption{Fundamental Components of Construction Grammar.}
     \label{fig:CGFundamentals}
 \end{figure}
+\fi
 
 To study the effects of Goal generalization in isolation, the authors do not use a  full blow NLP agent.  They use simple and controlled Grammar as shown in Figure~\ref{fig:ConstructionGrammarImage}.  It has 3 main actions/verbs \textbf{Go} (to a zone) \textbf{Grasp} (an object) and \textbf{Grow} (an object).  The number of objects depends on the environment's complexity.  [See \ref{EnvironmentSection} ]
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.8\textwidth]{img/ConstructionGrammarImage}
     \caption{Construction Grammar used in the Paper.\cite{researchPaper}}
     \label{fig:ConstructionGrammarImage}
 \end{figure}
+\fi
 
 \subsection{Goal Generation "Curiosity" algorithm}
 The essence of this algorithm is that the authors try to compute equivalent atoms.  Given 2 known goals like "Move Red Table" and "Move Red Chair", the edit distance between the goals is 1.  This is because by replacing 1 word "Table" with "Chair" we can move from the first to the second goal (and vice-versa).  Now the atoms "Table" and "Chair" are considered equivalent.  One can be replaced for another in a goal to obtain a different goal.  For example "Break Red Chair" can be converted to "Break Read Table".  The new compounds/goals formed by replacing equivalent atoms are called imagined goals.  Figure~\ref{fig:CuriosityAlgorithm} shows the complete algorithm with its essence.  Using these imagined goals, the agent explores the goal space to get better goal generalization.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/CuriosityAlgorithm}
     \caption{Curiosity Algorithm.\cite{researchPaper}}
     \label{fig:CuriosityAlgorithm}
 \end{figure}
+\fi
 
 \subsection{Goal Generalization vs State Space Generalization}
 As there are 2 distinct phases of learning, as seen above,  so are there 2 distinct generalizations
@@ -87,6 +94,7 @@ As there are 2 distinct phases of learning, as seen above,  so are there 2 disti
 \item State Space Generalization - Corresponding to the Task Learning Phase.
 \end{itemize}
 
+\ifx false
 \begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
@@ -101,7 +109,7 @@ As there are 2 distinct phases of learning, as seen above,  so are there 2 disti
     \label{fig:StateSpaceGeneralization}
   \end{minipage}
 \end{figure}
-
+\fi
 Consider a space of "Moving objects on an $x y$ plane".  Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learned to move 1 type of object (here a chair),  then a good State-space generalization would be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.  However, only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
 
 
@@ -112,6 +120,7 @@ and supplies i.e food and water.
 
 The objects together with the construction grammar form a virtual farm in which the agent can Grasp and move the objects and also grow the living things.  The objects can be referenced using their predicates.   These predicates are organized in a hierarchy similar to the class hierarchy in an Object-Oriented Programming language.  The predicates aid the curiosity algorithm to make bigger jumps within the goal space.  For example, "Grow red Animal" generalized to "Grow red Plant" is a huge jump in the goal space than jumping from "Grow red Cat" to "Grow red Dog".  This is because plants can only be grown with water, unlike the animals that can grow with both water and food.  Figure~\ref{fig:EnvironmentLayout} shows the environment layout created in one instance.  Figure~\ref{fig:ObjectsAndHeirarchy} shows the hardcoded objects in the environment used for testing.
 
+\ifx false
 \begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.35\textwidth}
@@ -126,6 +135,7 @@ The objects together with the construction grammar form a virtual farm in which 
     \label{fig:ObjectsAndHeirarchy}
   \end{minipage}
 \end{figure}
+\fi
 
 \ifx false
 \subsection{Environment Representations}
@@ -154,12 +164,14 @@ Hence all the function approximators have to be permutation invariant.  This is 
 \section{Proposed Architecture}
 Figure~\ref{fig:ProposedAgentArchitecture} shows the complete architecture proposed in the paper.  \textbf{IMAGINE} is an acronym which stands for \textbf{I}ntrinsic \textbf{M}otivations \textbf{A}nd \textbf{G}oal \textbf{IN}vention for \textbf{E}xploration.  Observe that Goal Generation is a part of the architecture, therefore the agent is intrinsically motivated.  The Social  Partner in the architecture does the guidance for the agent according to the \textit{Theory of Proximal Zone of Development}.  Since the reward (\textbf{R}) and policy ($\pi$) are conditioned on the goal,  the language encoder ($\mathbf{L}_{\mathbf{e}}$) is represented within the reward and the policy block.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/ProposedAgentArchitecture}
     \caption{Complete Architecture of the IMAGINE Agent. \cite{researchPaper}}
     \label{fig:ProposedAgentArchitecture}
 \end{figure}
+\fi
 
 The basic idea of the architecture is this - make the agent explore the environment.  Store anything interesting in memory.  Thereafter, use the memory to train the function approximators.  As shown in Figure~\ref{fig:ProposedAgentArchitecture},  the authors use 2 types of memories to store the data -
 \begin{itemize}
@@ -193,12 +205,14 @@ trained as a regression problem.
 
 Figure~\ref{fig:ImagineAlgorithm} shows the complete algorithm as given in the paper.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=1.0\textwidth]{img/ImagineAlgorithm}
     \caption{The IMAGINE algorithm.\cite{researchPaper}}
     \label{fig:ImagineAlgorithm}
 \end{figure}
+\fi
 
 \section{Goal generalization}
 The authors are primarily concerned with Goal Generalization in the paper.  This is because the state-space generalization achieves almost perfect generalization as reported by them ($0.95 \pm 0.05$).  2 distinct types of generalization were observed in the agent
@@ -213,14 +227,16 @@ The authors are primarily concerned with Goal Generalization in the paper.  This
 To test and quantify their goal generation mechanism, the authors define 2 terms called \textit{Coverage} and \textit{Precision}.  Coverage is the fraction of the goals in the test set that the agent has imagined.  Precision is the fraction of the imagined goals that are achievable.  More formally \\
 Coverage $ = \frac{|G(im) \cap |G(test)|}{ |G(test)| }  $ and Precision $ = \frac{|G(im) \cap |G(achievable)|}{ |G(im)| }$.
 
-To compare the results, the authors used Oracle (Used as a reference.  Goals are only imagined from the test set), Low coverage (Coverage is reduced by filtering out goals imagined on the test set with a particular probability), Low precision (Precision is reduced by filtering out achievable goals with a particular probability), and Random (Compounds are created by using random words) Goal generation mechanisms. Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision values for each of the mechanisms.
+To compare the results, the authors used Oracle (Goals only from the test set), Low coverage (Coverage is reduced by filtering out goals imagined on the test set with a particular probability), Low precision (Precision is reduced by filtering out achievable goals with a particular probability), and Random (Compounds are created by using random words) Goal generation mechanisms. Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision values for each of the mechanisms.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.8\textwidth]{img/ExperimentsAndResults}
     \caption{Experiments and Results.\cite{researchPaper}}
     \label{fig:ExperimentsAndResults}
 \end{figure}
+\fi
 
 The observation that the authors make is that the performance of an agent trained with Construction Grammar Heuristics and an oracle goal generation mechanism
 is almost the same.  The training on Low coverage goal generation mechanism also gave a reasonably good performance.  However,  training on a low precision goal generation mechanism reduces the performance of the agent significantly.  Hence,  the precision of the goal imagination mechanism was found to be more important than its coverage.
@@ -232,12 +248,14 @@ The authors then tried to strategically reduce the presence of the social partne
 
 Figure~\ref{fig:SocialFeedbackAnalysis}  shows the influence of social feedbacks on the performance of the agent.
 
+\ifx false
 \begin{figure}[htb]
   \centering
     \includegraphics[width=0.5\textwidth]{img/SocialFeedbackAnalysis}
     \caption{Influence of social Feedbacks. \cite{researchPaper}}
     \label{fig:SocialFeedbackAnalysis}
 \end{figure}
+\fi
 
 \section{Review}
 After seeing the above work, we now analyze the work both positively and critically.
