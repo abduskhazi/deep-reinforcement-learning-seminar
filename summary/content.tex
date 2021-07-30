@@ -127,6 +127,7 @@ The objects together with the construction grammar form a virtual farm in which 
   \end{minipage}
 \end{figure}
 
+\ifx false
 \subsection{Environment Representations}
 \label{EnvironmentRepresentationSection}
 As the agent, in principle, is a Reinforcement Learning agent,  the following representations are defined for the environment - 
@@ -139,12 +140,14 @@ As the agent, in principle, is a Reinforcement Learning agent,  the following re
 Where $d \in \mathbf{R}$ is for diameter, $[x, y] \in \mathbf{R}^2$ is the position in 2D space,
 $g \in \{-1, 1\}$ is wether an object is grasped or not by the agent and
 $[r, g, b] \in \mathbf{R}^3$ represents Color.
+\fi
 
 \section{Language Encoder and function approximators}
 The main functions of our RL agent i.e the Reward,  the Policy, and the Critic are function approximators represented by Deep Neural Networks.  Because our agent is multi-skilled, these function approximators should be conditioned on the target goal.  Because the target goal in its NL state cannot be used as a conditioner, the authors use a Long Short-Term Memory (LSTM) network to encode the goal into $\mathbf{R}^{100}$.  The LSTM network is the language encoder and is represented by the function $L_e : g \mapsto \mathbf{R}^{100} \; \forall g \in G$ where $G$ is the set of goals obtainable from the Construction Grammar.
 
 \subsection{Reward (R),  policy($\pi$) and Critic (Q) function approximators}
-Deep Neural Network is used as a function approximator for R, $\pi$, and Q functions.  In the environment, the features of objects can be appended to the state in any order [see \ref{EnvironmentRepresentationSection}].  Hence all the function approximators have to be permutation invariant.  This is accomplished by dividing the state into object-specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}\cite{zaheer2018deep}.
+Deep Neural Network is used as a function approximator for R, $\pi$, and Q functions.  In the environment, the features of objects can be appended to the state in any order. % [see \ref{EnvironmentRepresentationSection}]. 
+Hence all the function approximators have to be permutation invariant.  This is accomplished by dividing the state into object-specific parts and using permutation invariant mathematical operators like $\sum$ and \textbf{OR}\cite{zaheer2018deep}.
 % The reward function is learnt as a binary classifier and is defined as $R(s, g) : \mathbf{S} \times \mathbf{R}^{100} \mapsto \{0,1\} $ 
 
 
