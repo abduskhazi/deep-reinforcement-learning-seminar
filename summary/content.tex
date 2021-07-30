@@ -213,14 +213,7 @@ The authors are primarily concerned with Goal Generalization in the paper.  This
 To test and quantify their goal generation mechanism, the authors define 2 terms called \textit{Coverage} and \textit{Precision}.  Coverage is the fraction of the goals in the test set that the agent has imagined.  Precision is the fraction of the imagined goals that are achievable.  More formally \\
 Coverage $ = \frac{|G(im) \cap |G(test)|}{ |G(test)| }  $ and Precision $ = \frac{|G(im) \cap |G(achievable)|}{ |G(im)| }$.
 
-To compare the results, the authors used the following Goal generation mechanisms -
-\begin{itemize}
-\item Oracle - Used as a reference.  Goals are only imagined from the test set.
-\item Low coverage - Coverage is reduced by filtering out goals imagined on the test set with a particular probability.
-\item Low precision - Precision is reduced by filtering out achievable goals with a particular probability.
-\item Random Goal Generation - Compounds are created by using random words.
-\end{itemize}
-Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision values for each of the mechanisms.
+To compare the results, the authors used Oracle (Used as a reference.  Goals are only imagined from the test set), Low coverage (Coverage is reduced by filtering out goals imagined on the test set with a particular probability), Low precision (Precision is reduced by filtering out achievable goals with a particular probability), and Random (Compounds are created by using random words) Goal generation mechanisms. Figure~\ref{fig:ExperimentsAndResults} shows you the coverage and precision values for each of the mechanisms.
 
 \begin{figure}[htb]
   \centering
