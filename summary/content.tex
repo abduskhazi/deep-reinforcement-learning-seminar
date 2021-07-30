@@ -42,43 +42,21 @@ This is a part of machine learning that tries to mimic the ways infants try to l
   \end{minipage}
 \end{figure}
 
-Hence psychologists say that children are intrinsically motivated or curious.
-The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.
-They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
+Hence psychologists say that children are intrinsically motivated or curious.  The authors try to mimic this in the "Curiosity Driven Exploration" of their agent.  They use construction grammar [See \ref{ConstructionGrammarSection}] as a mechanism to explore new goals.
 
 \subsection{Theory of Zone of Proximal Development}
-This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner at any stage of development.
-Figure~\ref{fig:ZPD} shows an illustration of these zones.
-The internal zone consists of skills that the learner can learn on his own.
-E.g. The child will be able to generalize building a stack of books after he learns how to build a stack of blocks.
-The middle zone,  aka \textit{Zone of Proximal Development},  consists of skills that the learner can accomplish only with the help of some guidance.
-E.g.  The child can learn how to build a pyramid, but he would require some guidance for this.
-The outermost zone consists of skills that cannot be accomplished even with the help of guidance.
-E.g.  Building a ship structure using lego blocks is beyond the child's capability regardless of the guidance given.
+This theory,  developed by Russian psychologist Vygotsky,  says that there exist 3 zones of skills for any learner at any stage of development.  Figure~\ref{fig:ZPD} shows an illustration of these zones.  The internal zone consists of skills that the learner can learn on his own.  E.g. The child will be able to generalize building a stack of books after he learns how to build a stack of blocks.  The middle zone,  aka \textit{Zone of Proximal Development},  consists of skills that the learner can accomplish only with the help of some guidance.  E.g.  The child can learn how to build a pyramid, but he would require some guidance for this.  The outermost zone consists of skills that cannot be accomplished even with the help of guidance.  E.g.  Building a ship structure using lego blocks is beyond the child's capability regardless of the guidance given.
 
-The key idea is this - there has to be someone to guide the child.
-This is identical to the parent-child learning dynamics.
-Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
+The key idea is this - there has to be someone to guide the child.  This is identical to the parent-child learning dynamics.  Using this principle, the authors propose the use of a social partner to guide the learning of their proposed agent.
 
 \section{Goal Generation and Generalization}
 \subsection{Previous works and their limitations}
-In the previous works and in this work,  each goal is given by $g \in \mathbf{R}^m$.
-Using a set of known Goals $G$,  previous papers trained models such as \textit{Adversarial Neural Networks} and \textit{Variational Auto-Encoders}.
-Using these models,  new goals within the known/seen distribution were created.
-This is a limitation because it is not a novel goal for the agent.
-E.g. The tasks - Building a stack of blocks and a stack of books are within the same goal distribution.
-But they are not novel for the child.
-What is novel is to jump to building a pyramid which is an out of distribution Goal.
-The authors try to overcome this limitation by using language for generating new goals instead of the above generative models.
+In the previous works and this work,  each goal is given by $g \in \mathbf{R}^m$.  Using a set of known Goals $G$,  previous papers trained models such as \textit{Adversarial Neural Networks} and \textit{Variational Auto-Encoders}.  Using these models,  new goals within the known/seen distribution were created.  This is a limitation because it is not a novel goal for the agent.  E.g. The tasks - Building a stack of blocks and a stack of books are within the same goal distribution.  But they are not novel for the child.  What is novel is to jump to building a pyramid which is an out-of-distribution Goal.  The authors try to overcome this limitation by using language for generating new goals instead of the above generative models.
 
 \subsection{Goal Generation Mechanism - Construction Grammar}
 \label{ConstructionGrammarSection}
 
-The authors make use of a concept called Construction Grammar to generate new goals.
-Using Construction Grammar it is able to generate out of known distribution goals.
-Each word, being \textbf{semantically undividable}, is called an atom.
-Atoms combine to form compounds which are ultimately sentences describing goals.
-Figure~\ref{fig:CGFundamentals} provides an example.
+The authors make use of a concept called Construction Grammar to generate new goals. Construction Grammar can generate out of known distribution goals.  Each word, being \textbf{semantically undividable} is called an atom.  Atoms combine to form compounds which are ultimately sentences describing goals.  Figure~\ref{fig:CGFundamentals} provides an example.
 
 \begin{figure}[htb]
   \centering
@@ -87,10 +65,7 @@ Figure~\ref{fig:CGFundamentals} provides an example.
     \label{fig:CGFundamentals}
 \end{figure}
 
-To study the effects of Goal generalization in isolation, the authors do not use a  full blow NLP agent.
-They use a simple and controlled Grammar as shown in Figure~\ref{fig:ConstructionGrammarImage} .
-It has 3 main actions/verbs \textbf{Go} (to a zone) \textbf{Grasp} (an object) and \textbf{Grow} (an object).
-The number of objects depend on the environment complexity. [See \ref{EnvironmentSection} ]
+To study the effects of Goal generalization in isolation, the authors do not use a  full blow NLP agent.  They use simple and controlled Grammar as shown in Figure~\ref{fig:ConstructionGrammarImage}.  It has 3 main actions/verbs \textbf{Go} (to a zone) \textbf{Grasp} (an object) and \textbf{Grow} (an object).  The number of objects depends on the environment's complexity.  [See \ref{EnvironmentSection} ]
 
 \begin{figure}[htb]
   \centering
@@ -100,15 +75,7 @@ The number of objects depend on the environment complexity. [See \ref{Environmen
 \end{figure}
 
 \subsection{Goal Generation "Curiosity" algorithm}
-The essence of this algorithm is that the authors try to compute equivalent atoms.
-Given 2 known goals like "Move Red Table" and "Move Red Chair", the edit distance between the goals is 1.
-This is because by replacing 1 word "Table" with "Chair" we can move from the first to the second goal (and vice-versa).
-Now the atoms "Table" and "Chair" are considered equivalent.
-One can be replaced for another in a goal to obtain a different goal.
-For example "Break Red Chair" can be converted to "Break Read Table".
-The new compounds/goals formed by replacing equivalent atoms are called imagined goals.
-Figure~\ref{fig:CuriosityAlgorithm} shows the complete algorithm with its essence.
-Using these imagined goals, the agent explores the goal space to get better goal generalization.
+The essence of this algorithm is that the authors try to compute equivalent atoms.  Given 2 known goals like "Move Red Table" and "Move Red Chair", the edit distance between the goals is 1.  This is because by replacing 1 word "Table" with "Chair" we can move from the first to the second goal (and vice-versa).  Now the atoms "Table" and "Chair" are considered equivalent.  One can be replaced for another in a goal to obtain a different goal.  For example "Break Red Chair" can be converted to "Break Read Table".  The new compounds/goals formed by replacing equivalent atoms are called imagined goals.  Figure~\ref{fig:CuriosityAlgorithm} shows the complete algorithm with its essence.  Using these imagined goals, the agent explores the goal space to get better goal generalization.
 
 \begin{figure}[htb]
   \centering
@@ -139,29 +106,15 @@ As there are 2 distinct phases of learning, as seen above,  so are there 2 disti
   \end{minipage}
 \end{figure}
 
-Consider a space of "Moving objects on an $x y$ plane".
-Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learnt to move 1 type of object (here a chair),  then a good State space generalization would 
-be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.
-However only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can 
-generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
+Consider a space of "Moving objects on an $x y$ plane".  Figure~\ref{fig:StateSpaceGeneralization} shows that if an agent has learned to move 1 type of object (here a chair),  then a good State-space generalization would be that the agent can apply this skill to move the chair between any 2 points in the $x y$ plane.  However, only when an agent can move a distinct object, here a table, between the same points can we claim that the agent can generalize across goals. This is illustrated in Figure~\ref{fig:GoalGeneralization}.
 
 
 \section{Synthetic Environment - Playground}
 \label{EnvironmentSection}
-Because of the complexity reasons mentioned in \ref{ConstructionGrammarSection}
-the authors do not learn a full blown Perception agent.
-The environment is a 2D space in which the agent and the objects are represented as circles (internally).
-3 types of objects are hard coded in the environment - living things e.g. a plant,  a cat,  a lion etc., non living things e.g. a chair, a table etc. 
+Because of the complexity reasons mentioned in \ref{ConstructionGrammarSection} the authors do not learn a full-blown Perception agent.  The environment is a 2D space in which the agent and the objects are represented as circles (internally).  3 types of objects are hardcoded in the environment - living things e.g. a plant,  a cat,  a lion, etc., non-living things e.g. a chair, a table, etc. 
 and supplies i.e food and water.
 
-The objects together with the construction grammar form a virtual farm in which the agent can Grasp and move the objects and also grow the living things.
-The objects can be referenced using their predicates. 
-These predicates are organised in a hierarchy similar to the class hierarchy in an Object Oriented Programming language.
-The predicates aid the curiosity algorithm to make bigger jumps within the goal space.
-For example, "Grow red Animal" generalised to "Grow red Plant" is a huge jump in the goal space than jumping from "Grow red Cat" to "Grow red Dog".
-This is because plants can only be grown with water unlike the animals that can grow with both water and food.
-Figure~\ref{fig:EnvironmentLayout} shows the environment layout created in one instance.
-Figure~\ref{fig:ObjectsAndHeirarchy} shows the hard coded objects in the environment used for testing.
+The objects together with the construction grammar form a virtual farm in which the agent can Grasp and move the objects and also grow the living things.  The objects can be referenced using their predicates.   These predicates are organized in a hierarchy similar to the class hierarchy in an Object-Oriented Programming language.  The predicates aid the curiosity algorithm to make bigger jumps within the goal space.  For example, "Grow red Animal" generalized to "Grow red Plant" is a huge jump in the goal space than jumping from "Grow red Cat" to "Grow red Dog".  This is because plants can only be grown with water, unlike the animals that can grow with both water and food.  Figure~\ref{fig:EnvironmentLayout} shows the environment layout created in one instance.  Figure~\ref{fig:ObjectsAndHeirarchy} shows the hardcoded objects in the environment used for testing.
 
 \begin{figure}[!tbp]
   \centering
