@@ -1,17 +1,11 @@
 \section{Introduction - The essence of learning}
 
-Learning or development of any intelligent agent can be divided into 2 successive phases -
+The learning or development of any intelligent agent can be divided into 2 successive phases -
 \begin{enumerate}
   \item Understanding or finding the target task. (Goal Discovery)
   \item Learning the task itself.
 \end{enumerate}
-These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accomplished in a sequential manner.
-Most of the work in contemporary machine learning has assumed that the task to accomplish is already given and understood.
-All that remains is to program the computing agent to learn the task.
-For example,  to find fraud in bank transactions,  it is clear that the main objective is the classification of transactions as good and bad.
-The main question that remains is - How do we learn the best classifier?
-Interestingly,  the learning processes of the classifier is also determined by the choice of the machine learning model e.g.  ANN,  
-Random Forest Classifier etc.
+These phases,  as shown in Figure~\ref{fig:LearningPhases},  need to be accomplished in a sequential manner.  Most of the work in contemporary machine learning has assumed that the task to accomplish is already given and understood.  All that remains is to program the computing agent to learn the task.  For example,  to find fraud in bank transactions,  it is clear that the main objective is the classification of transactions as good and bad.  The main question that remains is - How do we learn the best classifier?  Interestingly,  the learning processes of the classifier are also determined by the choice of the machine learning model e.g.  ANN,  Random Forest Classifier, etc.
 
 \begin{figure}[htb]
   \centering
@@ -20,18 +14,9 @@ Random Forest Classifier etc.
     \label{fig:LearningPhases}
 \end{figure}
 
-Even though the selection of the ML models is automated to some extent using AutoML,
-this methodology fails for the sequential decision making tasks. 
-For solving this issue, Reinforcement Learning was developed as a general learning paradigm.
-Notice, however, that RL still only  deals with the second phase of learning.
-This is because the task to learn is intrinsically provided to the agent in the form of a reward function.
+Even though the selection of the ML models is automated to some extent using AutoML, this methodology fails for the sequential decision-making tasks.  For solving this issue, Reinforcement Learning was developed as a general learning paradigm.  Notice, however, that RL still only deals with the second phase of learning.  This is because the task to learn is intrinsically provided to the agent in the form of a reward function.
 
-The authors of this paper,  in contrast, focus mainly on the first phase of learning.
-They propose an agent architecture that not only learns multiple skills but also generalizes learning to new skills.
-Thus their agent is an open-ended multi-skill learning agent.
-They use (Deep) RL to their advantage for the second phase of learning as it is a general learning paradigm.
-Hence the agent has to learn to formulate the goal as a reward function.
-Subsequently it has to use the reward function to learn the task.
+The authors of this paper,  in contrast, focus mainly on the first phase of learning. They propose an agent architecture that not only learns multiple skills but also generalizes learning to new skills. Thus their agent is an open-ended multi-skill learning agent. They use (Deep) RL to their advantage for the second phase of learning as it is a general learning paradigm. Hence the agent has to learn to formulate the goal as a reward function.  Subsequently, it has to use the reward function to learn the task.
 
 \section{Motivation}
 
@@ -39,11 +24,7 @@ The inspirations of this paper come from 2 sources, namely,  \textit{Development
 % The principles taken from these 2 sources act as pillars upon which the agent's learning mechanism is built.
 
 \subsection{Developmental Machine Learning}
-This is a part of machine learning that tries to mimic the ways infants try to learn new skills.
-According to psychologists,  the way infants get their internal satisfaction or reward is by accomplishing novel goals.
-For example in Figure~\ref{fig:kindPlayingBlock}, after learning how to build a block-tower the child is no longer interested in repeating this task.
-Even accomplishing a similar task like building a tower of books is also not very interesting or satisfying.
-Novelty of the task is essential !
+This is a part of machine learning that tries to mimic the ways infants try to learn new skills.  According to psychologists,  the way infants get their internal satisfaction or reward is by accomplishing novel goals.  For example, in Figure~\ref{fig:kindPlayingBlock}, after learning how to build a block tower, the child is no longer interested in repeating this task.  Even accomplishing a similar task like building a tower of books is also not very interesting or satisfying.  The novelty of the task is essential!
 
 
 \begin{figure}[!tbp]
