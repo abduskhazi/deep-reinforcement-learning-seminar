@@ -175,10 +175,10 @@ $r = 1$ if $s$ is the goal state for $L_e(g)$ otherwise $r = 0$.
 The following steps describe the working of the Imagine Algorithm
 \begin{enumerate}
 \item All function approximators i.e $L_e$,  R,  $\pi$ are randomly initialized.
-The memories i.e mem(R),   mem($\pi$),  knonwn Goals ($G^{known}$) and Imagined Goals($G^{Imagined}$) are initialized to empty
+The memories i.e mem(R),   mem($\pi$),  known Goals ($G^{known}$) and Imagined Goals($G^{Imagined}$) are initialized to empty
 \item For $N_{episodes}$ goals are randomly sampled from the known and Imagined Goals.
 Using $L_e$ the goal is mapped to $\mathbf{R}^{100}$
-If the known and imagined goals are empty,  it samples the goals from a normal distribution.
+If the known and imagined goals are empty,  it samples the goal from a normal distribution.
 \item Then the agent rolls out the policy conditioned on the goal i.e $\pi(s, g)$.
 The trajectory of the agent is stored in mem($\pi$).
 \item At the end of an episode i.e when the state of the environment is $s_T$,  the social partner "Describes" this state with a description G. 
