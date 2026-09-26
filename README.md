@@ -1,29 +1,7 @@
-# README #
+# Deep Reinforcement Learning Seminar
 
-This README would normally document whatever steps are necessary to get your application up and running.
+A seminar on **Deep Reinforcement Learning**, focused on understanding and presenting a **recently published research paper**.
 
-### What is this repository for? ###
+The repository contains the material used to study the paper, understand its key ideas, and prepare the seminar presentation.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+[Seminar Material](https://drive.google.com/drive/folders/1b4Nz6w9K0DoOIpl-1Z5_ReXkyyLob3ER)
